@@ -37,7 +37,7 @@ This method utilizes the `severity` index as a hard threshold filter.
 
 **Findings**: Effective at capturing obvious crashes but lacks nuance for structural changes or liquidity events without price drops.
 
-![Threshold Anomalies](plots/threshold_anomalies.png)
+![Threshold Anomalies](/plots/threshold_anomalies.png)
 *Figure 3: Anomalies detected using simple severity thresholds.*
 
 ### B. Unsupervised Learning: K-Means Clustering
@@ -46,10 +46,10 @@ This method utilizes the `severity` index as a hard threshold filter.
 - **Configuration**: `K=3` clusters (Calm, Moderate, Volatile) selected via Elbow Method.
 - **Anomaly Definition**: Points where the distance to the nearest cluster center is in the **95th percentile**.
 
-![Elbow and Silhouette](plots/elbow_and_silhouette_kmeans.jpg)
+![Elbow and Silhouette](/plots/elbow_and_silhouette_kmeans.jpg)
 *Figure 4: Elbow Method and Silhouette Score analysis used to determine optimal K=3.*
 
-![Cluster Stability](plots/kmeans_cluster_stability.png)
+![Cluster Stability](/plots/kmeans_cluster_stability.png)
 *Figure 5: Stability of K-Means clusters over time.*
 
 ### C. Density-Based: DBSCAN (Walk-Forward)
@@ -58,10 +58,10 @@ This method utilizes the `severity` index as a hard threshold filter.
 - **Training**: Walk-Forward validation (retrained monthly) to prevent look-ahead bias and adapt to changing market conditions.
 - **Parameters**: `eps=0.6`, `min_samples=20` (Tuned via k-Distance Graph).
 
-![k-Distance Graph](plots/k_distance_dbscan.png)
+![k-Distance Graph](/plots/k_distance_dbscan.png)
 *Figure 6: k-Distance graph used to identify the optimal epsilon (`eps`) parameter.*
 
-![DBSCAN Visualization](plots/dbscan_cluster_visualization.png)
+![DBSCAN Visualization](/plots/dbscan_cluster_visualization.png)
 *Figure 7: Visualization of DBSCAN clusters and noise points (anomalies).*
 
 ---
@@ -73,14 +73,14 @@ The project successfully identified major market stress events, particularly dur
 ### K-Means vs. Rule-Based
 K-Means proved more adaptive than simple rules. While rule-based methods only flag "severity," K-Means could identify days that were anomalous due to unusual combinations of features (e.g., high volume but low price movement) that a linear severity score might miss.
 
-![Rule-Based vs K-Means](plots/simple_rules_Vs_kmeans.png)
+![Rule-Based vs K-Means](/plots/simple_rules_Vs_kmeans.png)
 *Figure 8: Comparison of anomalies detected by Rule-Based thresholds vs. K-Means.*
 
 ### K-Means vs. DBSCAN
 DBSCAN offered the most "pure" anomaly detection. By designating points as noise, it filtered out high-variance days that were still part of a "volatile regime" (captured by K-Means) and focused only on truly unique market events.
 - **DBSCAN Flag Rate**: ~5.69% of trading days.
 
-![K-Means vs DBSCAN](plots/QQQ_anomalie_kmeans_vs_dbscan.png)
+![K-Means vs DBSCAN](/plots/QQQ_anomalie_kmeans_vs_dbscan.png)
 *Figure 9: Detailed comparison of K-Means vs. DBSCAN behavior on QQQ.*
 
 ## 5. Usage Instructions

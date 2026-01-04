@@ -79,7 +79,7 @@ This method utilizes the 'Z_score' index as a hard threshold filter.
 The project successfully identified major market stress events, particularly during the COVID-19 crash of February andMarch 2020.
 
 ### K-Means vs. Rule-Based
-K-Means proved more adaptive than simple rules. While rule-based methods only flag "" K-Means could identify days that were anomalous due to unusual combinations of features (e.g., high volume but low price movement) that a linear severity score might miss.
+K-Means proved more adaptive than simple rules. While rule-based methods flagged most of the days as anomalies, K-Means could identify days that were anomalous due to unusual combinations of features (e.g., high volume but low price movement) that a linear severity score might miss.
 
 ![Rule-Based vs K-Means](/plots/simple_rules_Vs_kmeans.png)
 *Figure 8: Comparison of anomalies detected by Rule-Based thresholds vs. K-Means.*
@@ -89,7 +89,7 @@ DBSCAN offered the most "pure" anomaly detection. By designating points as noise
 - **DBSCAN Flag Rate**: ~3.84% of trading days on 2019 Validation Dataset.
 - **K-Means Flag Rate**: ~4.76% of trading days on 2019 Validation Dataset.
 
-**Findings**: DBSCAN and KMeans agreed on most of the anomalies in February 2020. But DBSCAN learned the trends of the market and when the market shifted to a different regime, It became less sensitive to the market events thinking that it was part of the same regime.
+**Findings**: DBSCAN and KMeans agreed on most of the anomalies in February 2020. But DBSCAN learned the trends of the market (Walk-Forward Validation) and when the market shifted it learned the new regime and became less sensitive and detected what truly were market events among these anomalies.
 
 ![K-Means vs DBSCAN](/plots/QQQ_anomalie_kmeans_vs_dbscan.png)
 *Figure 9: Detailed comparison of K-Means vs. DBSCAN behavior on QQQ.*

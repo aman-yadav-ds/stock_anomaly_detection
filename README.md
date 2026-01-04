@@ -27,7 +27,7 @@ The core of this project lies in robust feature engineering that captures market
 ---
 
 ## 3. Methodology & Models
-We implemented and compared three distinct detection methodologies, ranging from simple heuristics to advanced density-based clustering.
+I implemented and compared three distinct detection methodologies, ranging from simple heuristics to advanced density-based clustering.
 
 ### A. Rule-Based Detection (Baseline)
 This method utilizes the 'Z_score' index as a hard threshold filter.
@@ -35,7 +35,7 @@ This method utilizes the 'Z_score' index as a hard threshold filter.
 - **Volume Shock**: |vol_z| > 2.5
 - **Range Shock**: |range_pct| > 0.95 (95th percentile)
 
-**Findings**: Effective at capturing obvious crashes but lacks nuance for structural changes or liquidity events without price drops.
+**Findings**: Not very Effective since it marks most of the market events as anomalies especially during march 2020 when the stock market was very unstable due to the COVID-19 pandemic.
 
 ![Threshold Anomalies](/plots/threshold_anomalies.png)
 *Figure 3: Anomalies detected using simple severity thresholds.*
@@ -64,21 +64,32 @@ This method utilizes the 'Z_score' index as a hard threshold filter.
 ![DBSCAN Visualization](/plots/dbscan_cluster_visualization.png)
 *Figure 7: Visualization of DBSCAN clusters and noise points (anomalies).*
 
+### D. UNION Aproach (K-Means + DBSCAN)
+**Hypothesis**: By combining the strengths of both clustering and density-based methods, I created a more robust anomaly detection system.
+
+- **STRONG SIGNAL**: When both the models agree on an anomaly, it is marked as an anomaly with `STRONG SIGNAL` label.
+- **WEAK SIGNAL**: When only one of the models agree on an anomaly, it is marked as an anomaly with `WEAK SIGNAL` label.
+
+**Findings**: UNION approach performed better than both K-Means and DBSCAN. UNION approach correctly identified crash days in late February 2020 as early signs of the big market crash events in March 2020.
+
 ---
 
 ## 4. Comparative Analysis & Results
 
-The project successfully identified major market stress events, particularly during the COVID-19 crash of March 2020.
+The project successfully identified major market stress events, particularly during the COVID-19 crash of February andMarch 2020.
 
 ### K-Means vs. Rule-Based
-K-Means proved more adaptive than simple rules. While rule-based methods only flag "severity," K-Means could identify days that were anomalous due to unusual combinations of features (e.g., high volume but low price movement) that a linear severity score might miss.
+K-Means proved more adaptive than simple rules. While rule-based methods only flag "" K-Means could identify days that were anomalous due to unusual combinations of features (e.g., high volume but low price movement) that a linear severity score might miss.
 
 ![Rule-Based vs K-Means](/plots/simple_rules_Vs_kmeans.png)
 *Figure 8: Comparison of anomalies detected by Rule-Based thresholds vs. K-Means.*
 
 ### K-Means vs. DBSCAN
 DBSCAN offered the most "pure" anomaly detection. By designating points as noise, it filtered out high-variance days that were still part of a "volatile regime" (captured by K-Means) and focused only on truly unique market events.
-- **DBSCAN Flag Rate**: ~5.69% of trading days.
+- **DBSCAN Flag Rate**: ~3.84% of trading days on 2019 Validation Dataset.
+- **K-Means Flag Rate**: ~4.76% of trading days on 2019 Validation Dataset.
+
+**Findings**: DBSCAN and KMeans agreed on most of the anomalies in February 2020. But DBSCAN learned the trends of the market and when the market shifted to a different regime, It became less sensitive to the market events thinking that it was part of the same regime.
 
 ![K-Means vs DBSCAN](/plots/QQQ_anomalie_kmeans_vs_dbscan.png)
 *Figure 9: Detailed comparison of K-Means vs. DBSCAN behavior on QQQ.*

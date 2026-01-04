@@ -20,7 +20,6 @@ The core of this project lies in robust feature engineering that captures market
 | **`ret_z`** | Returns Z-Score | Measures the deviation of today's return against the volatility of the trailing **63 days**. Identifying outliers relative to recent history. |
 | **`vol_z`** | Volume Z-Score | Measures if trading volume is unusually high, using a **21-day rolling window**. Log-transformed to handle skewness. |
 | **`range_pct`** | Range Percentile | Ranks today's intraday volatility (High - Low) against the distribution of the last **63 days**. |
-| **`severity`** | Severity Index | A composite score (0-100) averaging the percentiles of return, volume, and range. Acts as a "stress meter". |
 
 ![Feature Distribution](plots/feature_distribution.png)
 *Figure 2: Distribution of engineered features, showing the statistical properties used for anomaly detection.*

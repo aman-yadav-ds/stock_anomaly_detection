@@ -31,9 +31,10 @@ The core of this project lies in robust feature engineering that captures market
 We implemented and compared three distinct detection methodologies, ranging from simple heuristics to advanced density-based clustering.
 
 ### A. Rule-Based Detection (Baseline)
-This method utilizes the `severity` index as a hard threshold filter.
-- **Mild Stress**: Severity > 80
-- **Extreme Anomaly**: Severity > 95
+This method utilizes the 'Z_score' index as a hard threshold filter.
+- **Return Shock**: |ret_z| > 2.5
+- **Volume Shock**: |vol_z| > 2.5
+- **Range Shock**: |range_pct| > 0.95 (95th percentile)
 
 **Findings**: Effective at capturing obvious crashes but lacks nuance for structural changes or liquidity events without price drops.
 
